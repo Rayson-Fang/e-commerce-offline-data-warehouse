@@ -1,0 +1,14 @@
+<configuration>
+    <property>
+        <name>hive.merge.mapfiles</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hive.merge.mapredfiles</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hive.merge.size.per.task</name>
+        <value>256000000</value>
+    </property>
+</configuration>
