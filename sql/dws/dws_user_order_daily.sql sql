@@ -1,0 +1,18 @@
+DROP TABLE IF EXISTS dws_user_order_daily;
+CREATE EXTERNAL TABLE dws_user_order_daily (
+    user_id STRING COMMENT '用户ID',
+    order_count INT COMMENT '下单次数',
+    total_amount DECIMAL(10,2) COMMENT '总消费金额'
+)
+PARTITIONED BY (dt STRING)
+STORED AS ORC
+COMMENT 'DWS层用户日订单汇总表';
+
+INSERT OVERWRITE TABLE dws_user_order_daily PARTITION(dt='${dt}')
+SELECT
+    user_id,
+    COUNT(order_id) AS order_count,
+    SUM(order_amount) AS total_amount
+FROM dwd_order_detail
+WHERE dt = '${dt}'
+GROUP BY user_id;
